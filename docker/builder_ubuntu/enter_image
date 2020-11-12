@@ -1,0 +1,6 @@
+#!/bin/bash
+image_dir="$(dirname "$(realpath -L "$0")")"
+image_name="$(basename "${image_dir}")"
+image_prefix="docker.pkg.github.com/tzik/tc"
+
+exec docker run -it --rm "${image_prefix}/${image_name}" /bin/bash "$@"

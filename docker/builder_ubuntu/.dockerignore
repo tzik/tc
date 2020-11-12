@@ -1,0 +1,4 @@
+.dockerignore
+build_image
+enter_image
+run
