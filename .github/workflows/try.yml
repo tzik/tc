@@ -1,13 +1,110 @@
-name: Try
+name: try
 
 on:
   pull_request:
     branches: [master]
 
 jobs:
-  build:
+  try_llvm:
+    if: ${{!contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distrib: [gentoo, ubuntu]
     steps:
       - uses: actions/checkout@v2
-      - name: try
-        run: ./bin/try
+      - uses: actions/cache@v2
+        with:
+          path: pkg/llvm/cache
+          key: cache_llvm_${{matrix.distrib}}
+      - name: build
+        run: |
+          docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
+          docker pull "docker.pkg.github.com/tzik/tc/builder_${{matrix.distrib}}"
+          ./bin/try ${{matrix.distrib}} llvm
+      - uses: actions/upload-artifact@v2
+        with:
+          name: llvm_${{matrix.distrib}}
+          path: pkg/llvm/llvm.tar.xz
+
+  try_circt:
+    if: ${{!contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
+    runs-on: ubuntu-latest
+    needs: try_llvm
+    strategy:
+      matrix:
+        distrib: [gentoo, ubuntu]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: pkg/circt/cache
+          key: cache_circt_${{matrix.distrib}}
+      - uses: actions/download-artifact@v2
+        with:
+          name: llvm_${{matrix.distrib}}
+          path: pkg/llvm
+      - run: |
+          unxz pkg/llvm/llvm.tar.xz
+          pkg/llvm/bin/merge
+      - name: build
+        run: |
+          docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
+          docker pull "docker.pkg.github.com/tzik/tc/builder_${{matrix.distrib}}"
+          ./bin/try ${{matrix.distrib}} circt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: circt_${{matrix.distrib}}
+          path: pkg/circt/circt.tar.xz
+
+  try_onnx:
+    if: ${{!contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distrib: [gentoo, ubuntu]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: pkg/onnx/cache
+          key: cache_onnx_${{matrix.distrib}}
+      - name: build
+        run: |
+          docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
+          docker pull "docker.pkg.github.com/tzik/tc/builder_${{matrix.distrib}}"
+          ./bin/try ${{matrix.distrib}} onnx
+      - uses: actions/upload-artifact@v2
+        with:
+          name: onnx_${{matrix.distrib}}
+          path: pkg/onnx/onnx.tar.xz
+
+  try_pytorch:
+    if: ${{!contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
+    runs-on: ubuntu-latest
+    needs: try_onnx
+    strategy:
+      matrix:
+        distrib: [gentoo, ubuntu]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: pkg/pytorch/cache
+          key: cache_pytorch_${{matrix.distrib}}
+      - uses: actions/download-artifact@v2
+        with:
+          name: onnx_${{matrix.distrib}}
+          path: pkg/onnx
+      - run: |
+          unxz pkg/onnx/onnx.tar.xz
+          pkg/onnx/bin/merge
+      - name: build
+        run: |
+          docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
+          docker pull "docker.pkg.github.com/tzik/tc/builder_${{matrix.distrib}}"
+          ./bin/try ${{matrix.distrib}} pytorch
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pytorch_${{matrix.distrib}}
+          path: pkg/pytorch/pytorch.tar.xz

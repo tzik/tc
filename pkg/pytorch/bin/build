@@ -6,7 +6,6 @@ cmake_ninja_build "$@"
 cflags=(
   -pthread
   -fPIC
-  -I/usr/include/python3.7m
   -Wall -Wextra
   -Wno-strict-overflow
   -Wno-unused-parameter
@@ -16,6 +15,7 @@ cflags=(
   -Wno-deprecated-declarations
   -fno-strict-aliasing
   -Wno-missing-braces
+  $(python3-config --cflags)
 )
 
 ldflags=(
@@ -24,11 +24,11 @@ ldflags=(
   -Wl,-O1
   -Wl,--as-needed
   -Wl,-rpath,$ORIGIN/lib
-  $(python-config --ldflags)
+  $(python3-config --ldflags)
 )
 
 mkdir -p "${build_dir}/torch"
 cc -o "${build_dir}/stub.o" "${cflags[@]}" -c "${src_dir}/torch/csrc/stub.c"
-cc -o "${build_dir}/torch/_C$(python-config --extension-suffix)" "${build_dir}/stub.o" -L "${build_dir}/lib" -ltorch_python "${ldflags[@]}"
+cc -o "${build_dir}/torch/_C$(python3-config --extension-suffix)" "${build_dir}/stub.o" -L "${build_dir}/lib" -ltorch_python "${ldflags[@]}"
 cc -o "${build_dir}/dl.o" "${cflags[@]}" -c "${src_dir}/torch/csrc/dl.c"
-cc -o "${build_dir}/torch/_dl$(python-config --extension-suffix)" "${build_dir}/dl.o" "${ldflags[@]}"
+cc -o "${build_dir}/torch/_dl$(python3-config --extension-suffix)" "${build_dir}/dl.o" "${ldflags[@]}"
