@@ -1,0 +1,3 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+git pull

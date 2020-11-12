@@ -1,0 +1,34 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+source "${lib_dir}/cmake_ninja_install.sh"
+cmake_ninja_install
+
+get_python_dir() {
+  python - <<EOF
+from distutils import sysconfig
+print(sysconfig.get_python_lib(prefix=""))
+EOF
+}
+
+python_dir="$(get_python_dir)"
+
+cd "${src_dir}"
+mkdir -p "${image_dir}${prefix}/${python_dir}/torch"
+while read -d $'\0' i; do
+  src="${src_dir}/${i}"
+  dest="${image_dir}${prefix}/${python_dir}/${i}"
+  mkdir -p "$(dirname "${dest}")"
+  cp -T -- "${src}" "${dest}"
+done < <(find torch '(' -name '*.py' -or -name '*.pyi' ')' -print0)
+
+cd "${build_dir}"
+while read -d $'\0' i; do
+  src="${build_dir}/$i"
+  dest="${image_dir}${prefix}/${python_dir}/${i}"
+  mkdir -p "$(dirname "${dest}")"
+  cp -T -- "${src}" "${dest}"
+done < <(find torch -name '*.so' -print0)
+
+for i in lib bin; do
+  ln -rsfT "${image_dir}${prefix}/${i}" "${image_dir}${prefix}/${python_dir}/torch/${i}"
+done

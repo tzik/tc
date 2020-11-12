@@ -1,0 +1,2 @@
+[submodule "llvm"]
+	url = https://github.com/circt/llvm.git

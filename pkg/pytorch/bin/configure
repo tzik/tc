@@ -1,0 +1,12 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+source "${lib_dir}/cmake_configure.sh"
+
+opts=(
+  "-DBUILD_SHARED_LIBS=ON"
+  "-DBUILD_BINARY=ON"
+  "-DBUILD_CUSTOM_PROTOBUF=OFF"
+  "-DBUILD_PYTHON=ON"
+  # "-DUSE_SYSTEM_LIBS=ON"
+)
+cmake_configure "${opts[@]}"

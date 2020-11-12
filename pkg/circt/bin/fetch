@@ -1,0 +1,4 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+source "${lib_dir}/fetch.sh"
+fetch "https://github.com/llvm/circt.git@master" "${src_dir}"

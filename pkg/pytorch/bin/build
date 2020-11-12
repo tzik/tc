@@ -1,0 +1,34 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+source "${lib_dir}/cmake_ninja_build.sh"
+cmake_ninja_build "$@"
+
+cflags=(
+  -pthread
+  -fPIC
+  -I/usr/include/python3.7m
+  -Wall -Wextra
+  -Wno-strict-overflow
+  -Wno-unused-parameter
+  -Wno-missing-field-initializers
+  -Wno-write-strings
+  -Wno-unknown-pragmas
+  -Wno-deprecated-declarations
+  -fno-strict-aliasing
+  -Wno-missing-braces
+)
+
+ldflags=(
+  -pthread
+  -shared
+  -Wl,-O1
+  -Wl,--as-needed
+  -Wl,-rpath,$ORIGIN/lib
+  $(python-config --ldflags)
+)
+
+mkdir -p "${build_dir}/torch"
+cc -o "${build_dir}/stub.o" "${cflags[@]}" -c "${src_dir}/torch/csrc/stub.c"
+cc -o "${build_dir}/torch/_C$(python-config --extension-suffix)" "${build_dir}/stub.o" -L "${build_dir}/lib" -ltorch_python "${ldflags[@]}"
+cc -o "${build_dir}/dl.o" "${cflags[@]}" -c "${src_dir}/torch/csrc/dl.c"
+cc -o "${build_dir}/torch/_dl$(python-config --extension-suffix)" "${build_dir}/dl.o" "${ldflags[@]}"

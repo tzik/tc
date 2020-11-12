@@ -1,0 +1,4 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+source "${lib_dir}/cmake_ninja_pack.sh"
+cmake_ninja_pack

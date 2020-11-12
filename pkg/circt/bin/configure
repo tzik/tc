@@ -1,0 +1,9 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+source "${lib_dir}/cmake_configure.sh"
+
+opts=(
+  "-DBUILD_SHARED_LIBS=ON"
+  "-DLLVM_EXTERNAL_LIT=${base_dir}/../llvm/build/bin/llvm-lit"
+)
+cmake_configure "${opts[@]}"

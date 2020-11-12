@@ -1,0 +1,82 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+source "${lib_dir}/cmake_configure.sh"
+
+glue() {
+  local IFS=";"
+  echo "$*"
+}
+
+targets=(
+  X86
+  ARM
+  AArch64
+  WebAssembly
+  RISCV
+)
+
+tools=(
+  # compiler-rt
+  # libcxxabi
+  # libcxx
+  # libunwind
+  clang
+  lld
+  lldb
+  clang-tools-extra
+  polly
+  mlir
+)
+
+opts=(
+  "-DBUILD_SHARED_LIBS=ON"
+  "-DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu"
+  "-DLLVM_DEFAULT_TARGET_TRIPLE=x86_64-pc-linux-gnu"
+  "-DLLVM_ENABLE_ASSERTIONS=ON"
+  "-DLLVM_TARGETS_TO_BUILD=$(glue "${targets[@]}")"
+  "-DLLVM_ENABLE_PROJECTS=$(glue "${tools[@]}")"
+  "-DLLVM_INSTALL_UTILS=ON"
+)
+
+# opts+=(
+#     "-DLIBCXX_CXX_ABI=libcxxabi"
+#     "-DLIBCXX_CXX_ABI_INCLUDE_PATHS=${src_dir}/libcxxabi/include"
+#     "-DLIBCXX_CXX_ABI_INTREE=ON"
+#     "-DLIBCXXABI_LIBCXX_INCLUDES=${src_dir}/libcxx/include"
+
+#     "-DCLANG_DEFAULT_LINKER=lld"
+#     "-DCLANG_DEFAULT_CXX_STDLIB=libc++"
+#     "-DCLANG_DEFAULT_RTLIB=compiler-rt"
+
+#     "-DLIBCXXABI_USE_LLVM_UNWINDER=ON"
+#     "-DLIBCXXABI_LIBUNWIND_PATH=${src_dir}/libunwind"
+#     "-DLIBCXXABI_USE_COMPILER_RT=ON"
+#     "-DLIBCXXABI_ENABLE_SHARED=ON"
+#     "-DLIBCXXABI_INSTALL_LIBRARY=ON"
+#     "-DLIBCXXABI_INCLUDE_TESTS=OFF"
+
+#     "-DLLVM_BUILD_RUNTIME=ON"
+#     "-DLLVM_POLLY_BUILD=ON"
+#     "-DLLVM_EXTERNAL_PROJECTS=$(echo "${external_tools[*]}" | sed 's/ /;/g')"
+#     "-DCHROMIUM_TOOLS=base_bind_rewriters;plugins;blink_gc_plugin"
+#     "-DCMAKE_C_FLAGS=-DLLVM_FORCE_HEAD_REVISION"
+#     "-DCMAKE_CXX_FLAGS=-DLLVM_FORCE_HEAD_REVISION"
+
+#     "-DLLVM_ENABLE_LIBXML2=OFF"
+#     "-DLLVM_ENABLE_LIBEDIT=OFF"
+#     "-DLLVM_ENABLE_TERMINFO=OFF"
+#     "-DLLDB_DISABLE_PYTHON=ON"
+#     "-DLLDB_DISABLE_CURSES=ON"
+#     "-DLLDB_DISABLE_LIBEDIT=ON"
+
+#     "-DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON"
+#     "-DCOMPILER_RT_DEFAULT_TARGET_ARCH=X86_64"
+#     "-DSANITIZER_CXX_ABI=libcxxabi"
+#     "-DCOMPILER_RT_USE_LIBCXX=ON"
+
+#     # "-DCOMPILER_RT_BUILD_SANITIZERS=OFF"
+
+#     "-DSANITIZER_CXX_ABI=libc++"
+# )
+
+cmake_configure "${opts[@]}"
