@@ -1,6 +1,8 @@
-name: cron
+name: bump
 
 on:
+  workflow_dispatch:
+    branches: [master]
   schedule:
     - cron: '* * * * 6'
 
