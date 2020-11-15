@@ -7,7 +7,7 @@ for i in ./pkg/*; do
   "${i}/bin/update_lkgr"
 done
 
-git co -b bot/bump
+git checkout -b bot/bump
 git commit -am "Weekly version bump"
 git push -f origin bot/bump
 if [ "$(gh pr list --label 'bot/bump' | wc -l)" -eq 0 ]; then
