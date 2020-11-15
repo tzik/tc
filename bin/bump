@@ -11,5 +11,5 @@ git checkout -b bot/bump
 git commit -am "Weekly version bump"
 git push -f origin bot/bump
 if [ "$(gh pr list --label 'bot/bump' | wc -l)" -eq 0 ]; then
-  gh pr create --label 'bot/bump'
+  gh pr create --fill --label 'bot/bump'
 fi
