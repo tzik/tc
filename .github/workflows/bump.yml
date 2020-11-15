@@ -14,5 +14,6 @@ jobs:
       - run: |
           git config user.name tzik
           git config user.email mail@tzik.jp
+          git remote set-url origin "https://tzik:${{secrets.VERSION_BUMP_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git"
           echo "${{secrets.VERSION_BUMP_TOKEN}}" | gh auth login --with-token
           ./bin/bump
