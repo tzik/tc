@@ -14,4 +14,5 @@ jobs:
       - run: |
           git config user.name tzik
           git config user.email mail@tzik.jp
+          gh auth login
           ./bin/bump
