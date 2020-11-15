@@ -14,5 +14,5 @@ jobs:
       - run: |
           git config user.name tzik
           git config user.email mail@tzik.jp
-          gh auth login
+          echo "${{secrets.GITHUB_TOKEN}}" | gh auth login --with-token
           ./bin/bump
