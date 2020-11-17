@@ -1,0 +1,9 @@
+#!/bin/bash
+set -ex -o pipefail
+cd "$(dirname "$0")/.."
+
+for i in llvm circt onnx pytorch; do
+  "./pkg/${i}/bin/clobber"
+  "./pkg/${i}/bin/checkout"
+  "./pkg/${i}/bin/doit"
+done

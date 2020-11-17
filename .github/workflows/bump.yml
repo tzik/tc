@@ -2,7 +2,6 @@ name: bump
 
 on:
   workflow_dispatch:
-    branches: [master]
   schedule:
     - cron: '* * * * 6'
 
@@ -11,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: bump
+        run: |
           git config user.name tzik
           git config user.email mail@tzik.jp
           git remote set-url --push origin "https://tzik:${{secrets.VERSION_BUMP_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git"

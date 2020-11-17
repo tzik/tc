@@ -1,12 +1,15 @@
-name: try
+name: ci
 
 on:
+  workflow_dispatch:
+  push:
+    branches: [master]
   pull_request:
     branches: [master]
 
 jobs:
-  try_llvm:
-    if: ${{!contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
+  ci_llvm:
+    if: ${{github.event.type != 'PullRequestEvent' || !contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,10 +30,10 @@ jobs:
           name: llvm_${{matrix.distrib}}
           path: pkg/llvm/llvm.tar.xz
 
-  try_circt:
-    if: ${{!contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
+  ci_circt:
+    if: ${{github.event.type != 'PullRequestEvent' || !contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
     runs-on: ubuntu-latest
-    needs: try_llvm
+    needs: ci_llvm
     strategy:
       matrix:
         distrib: [gentoo, ubuntu]
@@ -57,8 +60,8 @@ jobs:
           name: circt_${{matrix.distrib}}
           path: pkg/circt/circt.tar.xz
 
-  try_onnx:
-    if: ${{!contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
+  ci_onnx:
+    if: ${{github.event.type != 'PullRequestEvent' || !contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -79,10 +82,10 @@ jobs:
           name: onnx_${{matrix.distrib}}
           path: pkg/onnx/onnx.tar.xz
 
-  try_pytorch:
-    if: ${{!contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
+  ci_pytorch:
+    if: ${{github.event.type != 'PullRequestEvent' || !contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
     runs-on: ubuntu-latest
-    needs: try_onnx
+    needs: ci_onnx
     strategy:
       matrix:
         distrib: [gentoo, ubuntu]
