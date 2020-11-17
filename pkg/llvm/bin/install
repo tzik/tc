@@ -2,3 +2,50 @@
 source "$(dirname "$0")/pkg.sh"
 source "${lib_dir}/cmake_ninja_install.sh"
 cmake_ninja_install
+
+bin_dir="${image_dir}/${prefix}/bin"
+
+wrap() {
+  cat > "${bin_dir}/$1" <<EOF
+#!/bin/bash
+prefix=$(printf "%q" "${prefix}")
+lib_dir="\${prefix}/lib"
+binary="\${prefix}/bin/$2"
+includes=(-isystem "\${prefix}/include")
+
+if [ "\$#" = 0 ]; then
+  exec "\${binary}"
+fi
+
+is_link=1
+is_solink=
+for i in "\$@"; do
+  case "\$i" in
+    -E|-fsyntax-only|-S|-c|--precompile)
+      is_link=
+      break
+      ;;
+    -shared)
+      is_link=
+      is_solink=1
+      break
+      ;;
+    *)
+      ;;
+  esac
+done
+
+if [ -n "\${is_solink}" -o -n "\${is_link}" ]; then
+  exec "\${binary}" "\${includes[@]}" "\$@" -L"\${lib_dir}" -Wl,--rpath="\${lib_dir}"
+fi
+
+export CCACHE_DIR="\${CCACHE_DIR:-\${prefix}/var/ccache}"
+export CCACHE_HARDLINK=1
+export CCACHE_COMPILERCHECK="string:\${binary}"
+exec ccache "\${binary}" "\${includes[@]}" "\$@"
+EOF
+  chmod a+x "${bin_dir}/$1"
+}
+
+wrap cc clang
+wrap c++ clang++
