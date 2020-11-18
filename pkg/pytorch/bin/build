@@ -23,7 +23,7 @@ ldflags=(
   -shared
   -Wl,-O1
   -Wl,--as-needed
-  -Wl,-rpath,$ORIGIN/lib
+  "-Wl,-rpath,\$ORIGIN/lib"
   $(python3-config --ldflags)
 )
 
