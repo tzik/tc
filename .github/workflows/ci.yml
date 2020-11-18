@@ -24,11 +24,12 @@ jobs:
         run: |
           docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
           docker pull "docker.pkg.github.com/tzik/tc/builder_${{matrix.distrib}}"
-          ./bin/try ${{matrix.distrib}} llvm
+          ./bin/ci ${{matrix.distrib}} llvm
       - uses: actions/upload-artifact@v2
         with:
           name: llvm_${{matrix.distrib}}
           path: pkg/llvm/llvm.tar.xz
+          retention-days: 1
 
   ci_circt:
     if: ${{github.event.type != 'PullRequestEvent' || !contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
@@ -54,11 +55,12 @@ jobs:
         run: |
           docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
           docker pull "docker.pkg.github.com/tzik/tc/builder_${{matrix.distrib}}"
-          ./bin/try ${{matrix.distrib}} circt
+          ./bin/ci ${{matrix.distrib}} circt
       - uses: actions/upload-artifact@v2
         with:
           name: circt_${{matrix.distrib}}
           path: pkg/circt/circt.tar.xz
+          retention-days: 1
 
   ci_onnx:
     if: ${{github.event.type != 'PullRequestEvent' || !contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
@@ -76,11 +78,12 @@ jobs:
         run: |
           docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
           docker pull "docker.pkg.github.com/tzik/tc/builder_${{matrix.distrib}}"
-          ./bin/try ${{matrix.distrib}} onnx
+          ./bin/ci ${{matrix.distrib}} onnx
       - uses: actions/upload-artifact@v2
         with:
           name: onnx_${{matrix.distrib}}
           path: pkg/onnx/onnx.tar.xz
+          retention-days: 1
 
   ci_pytorch:
     if: ${{github.event.type != 'PullRequestEvent' || !contains(github.event.pull_request.labels.*.name, 'ci/no-try')}}
@@ -106,8 +109,9 @@ jobs:
         run: |
           docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
           docker pull "docker.pkg.github.com/tzik/tc/builder_${{matrix.distrib}}"
-          ./bin/try ${{matrix.distrib}} pytorch
+          ./bin/ci ${{matrix.distrib}} pytorch
       - uses: actions/upload-artifact@v2
         with:
           name: pytorch_${{matrix.distrib}}
           path: pkg/pytorch/pytorch.tar.xz
+          retention-days: 1
