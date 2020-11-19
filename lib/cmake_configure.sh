@@ -20,7 +20,7 @@ cmake_configure() {
   if [ -n "${debug}" ]; then
     opts+=("-DCMAKE_BUILD_TYPE=Debug")
   else
-    opts+=("-DCMAKE_BUILD_TYPE=Release")
+    opts+=("-DCMAKE_BUILD_TYPE=RelWithDebInfo")
   fi
 
   if [ -z "${no_ccache}" ]; then
