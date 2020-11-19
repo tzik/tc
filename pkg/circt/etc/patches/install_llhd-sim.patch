@@ -1,0 +1,13 @@
+diff --git a/tools/llhd-sim/CMakeLists.txt b/tools/llhd-sim/CMakeLists.txt
+index 46c695d..f29efdf 100644
+--- a/tools/llhd-sim/CMakeLists.txt
++++ b/tools/llhd-sim/CMakeLists.txt
+@@ -9,7 +9,7 @@ set(LIBS
+         CIRCTLLHDSimEngine
+         )
+ 
+-add_llvm_executable(llhd-sim
++add_llvm_tool(llhd-sim
+  llhd-sim.cpp)
+  
+ llvm_update_compile_flags(llhd-sim)
