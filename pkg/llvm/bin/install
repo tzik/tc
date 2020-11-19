@@ -39,10 +39,12 @@ if [ -n "\${is_solink}" -o -n "\${is_link}" ]; then
   exec "\${binary}" "\${includes[@]}" "\$@" -L"\${lib_dir}" -Wl,--rpath="\${lib_dir}"
 fi
 
-export CCACHE_DIR="\${CCACHE_DIR:-\${prefix}/var/ccache}"
-export CCACHE_HARDLINK=1
-export CCACHE_COMPILERCHECK="string:\${binary}"
-exec ccache "\${binary}" "\${includes[@]}" "\$@"
+# export CCACHE_DIR="\${CCACHE_DIR:-\${prefix}/var/ccache}"
+# export CCACHE_HARDLINK=1
+# export CCACHE_COMPILERCHECK="string:\${binary}"
+# exec ccache "\${binary}" "\${includes[@]}" "\$@"
+
+exec "\${binary}" "\${includes[@]}" "\$@"
 EOF
   chmod a+x "${bin_dir}/$1"
 }
