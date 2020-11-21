@@ -1,4 +1,6 @@
 #!/bin/bash
 source "$(dirname "$0")/pkg.sh"
 source "${lib_dir}/checkout.sh"
+source "${lib_dir}/apply_patches.sh"
 checkout
+apply_patches

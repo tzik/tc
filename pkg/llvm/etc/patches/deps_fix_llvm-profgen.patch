@@ -1,0 +1,12 @@
+diff --git a/llvm/tools/llvm-profgen/CMakeLists.txt b/llvm/tools/llvm-profgen/CMakeLists.txt
+index 5a631195c28b..10d82c12c662 100644
+--- a/llvm/tools/llvm-profgen/CMakeLists.txt
++++ b/llvm/tools/llvm-profgen/CMakeLists.txt
+@@ -2,6 +2,7 @@
+ set(LLVM_LINK_COMPONENTS
+   AllTargetsDescs
+   AllTargetsDisassemblers
++  AllTargetsInfos
+   Core
+   MC
+   MCDisassembler
