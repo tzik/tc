@@ -4,6 +4,6 @@ source "${lib_dir}/cmake_configure.sh"
 
 opts=(
   "-DBUILD_SHARED_LIBS=ON"
-  "-DLLVM_EXTERNAL_LIT=${base_dir}/../llvm/build/bin/llvm-lit"
+  "-DVERILATOR_DISABLE=ON"
 )
 cmake_configure "${opts[@]}"
