@@ -5,5 +5,5 @@ cd "$(dirname "$0")/.."
 for i in llvm circt onnx pytorch; do
   "./pkg/${i}/bin/clobber"
   "./pkg/${i}/bin/checkout"
-  "./pkg/${i}/bin/doit"
+  full_build=1 "./pkg/${i}/bin/doit"
 done
