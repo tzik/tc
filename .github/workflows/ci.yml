@@ -76,7 +76,7 @@ jobs:
 
   ci_onnx:
     runs-on: ubuntu-latest
-    needs: [label_check, ci_llvm]
+    needs: label_check
     if: ${{needs.label_check.outputs.skip == 'false'}}
     strategy:
       matrix:
@@ -100,7 +100,7 @@ jobs:
 
   ci_pytorch:
     runs-on: ubuntu-latest
-    needs: [label_check, ci_llvm]
+    needs: [label_check, ci_onnx]
     if: ${{needs.label_check.outputs.skip == 'false'}}
     strategy:
       matrix:
