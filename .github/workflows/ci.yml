@@ -31,7 +31,8 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: pkg/llvm/cache
-          key: cache_llvm_${{matrix.distrib}}
+          key: cache_llvm_${{matrix.distrib}}-${{github.sha}}
+          restore-keys: cache_llvm_${{matrix.distrib}}-
       - name: build
         run: |
           docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
@@ -55,7 +56,8 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: pkg/circt/cache
-          key: cache_circt_${{matrix.distrib}}
+          key: cache_circt_${{matrix.distrib}}-${{github.sha}}
+          restore-keys: cache_circt_${{matrix.distrib}}-
       - uses: actions/download-artifact@v2
         with:
           name: llvm_${{matrix.distrib}}
@@ -86,7 +88,8 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: pkg/onnx/cache
-          key: cache_onnx_${{matrix.distrib}}
+          key: cache_onnx_${{matrix.distrib}}-${{github.sha}}
+          restore-keys: cache_onnx_${{matrix.distrib}}-
       - name: build
         run: |
           docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
@@ -110,7 +113,8 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: pkg/pytorch/cache
-          key: cache_pytorch_${{matrix.distrib}}
+          key: cache_pytorch_${{matrix.distrib}}-${{github.sha}}
+          restore-keys: cache_pytorch_${{matrix.distrib}}-
       - uses: actions/download-artifact@v2
         with:
           name: onnx_${{matrix.distrib}}

@@ -5,7 +5,7 @@ source "$(dirname "$0")/pkg.sh"
   ./bin/clobber
   ./bin/checkout
   ./bin/configure
-  ./bin/build
+  full_build=1 ./bin/build
   ./bin/install
   ./bin/pack
   xz -f "${package_file}"
