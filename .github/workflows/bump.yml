@@ -20,7 +20,7 @@ jobs:
           git commit -am "Weekly version bump"
           git push -f origin "bot/bump"
           echo "${{secrets.GITHUB_TOKEN}}" | gh auth login --with-token
-          [ "$(gh pr list --label "bot/bump" | wc -l)" -ne 0 ] || gh pr create --fill
+          [ "$(gh pr list --label "bot/bump" | wc -l)" -ne 0 ] || gh pr create --fill --label "bot/bump"
           pr="$(gh pr list --limit 1 --label "bot/bump" | cut -f1 -d$'\t')"
           echo "::set-output name=pr::${pr}"
       - uses: actions-ecosystem/action-add-labels@v1
