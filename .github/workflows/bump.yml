@@ -11,9 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: bump
+        id: bump
         run: |
-          git config user.name tzik
-          git config user.email mail@tzik.jp
-          git remote set-url --push origin "https://tzik:${{secrets.VERSION_BUMP_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git"
-          echo "${{secrets.VERSION_BUMP_TOKEN}}" | gh auth login --with-token
+          git switch -c "bot/bump"
           ./bin/bump
+          git commit -am "Weekly version bump"
+          git push -f origin "bot/bump"
+          [ "$(gh pr list --label "bot/bump" | wc -l)" -eq 0 ] || gh pr create --fill
+          pr="$(gh pr list --limit 1 --label "bot/bump" | cut -f1 -d$'\t')"
+          echo "::set-output name=pr::${pr}"
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{secrets.VERSION_BUMP_TOKEN}}
+          labels: ci/try-requested
+          number: ${{steps.bump.outputs.pr}}

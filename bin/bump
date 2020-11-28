@@ -2,14 +2,6 @@
 set -ex
 
 cd "$(dirname "$0")/.."
-
-for i in ./pkg/*; do
-  "${i}/bin/update_lkgr"
+for i in llvm circt onnx pytorch; do
+  "./pkg/${i}/bin/update_lkgr"
 done
-
-git checkout -b bot/bump
-git commit -am "Weekly version bump"
-git push -f origin bot/bump
-if [ "$(gh pr list --label 'bot/bump' | wc -l)" -eq 0 ]; then
-  gh pr create --fill --label 'bot/bump'
-fi
