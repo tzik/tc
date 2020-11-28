@@ -13,6 +13,8 @@ jobs:
       - name: bump
         id: bump
         run: |
+          git config user.name 'bumpbot'
+          git config user.email 'mail+bot@tzik.jp'
           git switch -c "bot/bump"
           ./bin/bump
           git commit -am "Weekly version bump"
