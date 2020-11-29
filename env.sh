@@ -29,6 +29,6 @@ tc_on() {
     if [ -n "${old}" ]; then
       old=":${old}"
     fi
-    eval "$k=\"${tc_paths[$k]}${old}\""
+    eval "export $k=\"${tc_paths[$k]}${old}\""
   done
 }
