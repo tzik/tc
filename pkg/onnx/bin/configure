@@ -6,4 +6,4 @@ opts=(
   "-DBUILD_SHARED_LIBS=ON"
   "-DBUILD_ONNX_PYTHON=ON"
 )
-cmake_configure "${opts[@]}"
+cmake_configure "${opts[@]}" "$@"

@@ -6,4 +6,4 @@ opts=(
   "-DBUILD_SHARED_LIBS=ON"
   "-DVERILATOR_DISABLE=ON"
 )
-cmake_configure "${opts[@]}"
+cmake_configure "${opts[@]}" "$@"
