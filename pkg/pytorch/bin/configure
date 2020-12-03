@@ -9,4 +9,4 @@ opts=(
   "-DBUILD_PYTHON=ON"
   # "-DUSE_SYSTEM_LIBS=ON"
 )
-cmake_configure "${opts[@]}"
+cmake_configure "${opts[@]}" "$@"

@@ -36,9 +36,8 @@ opts=(
   "-DLLVM_TARGETS_TO_BUILD=$(glue "${targets[@]}")"
   "-DLLVM_ENABLE_PROJECTS=$(glue "${tools[@]}")"
   "-DLLVM_INSTALL_UTILS=ON"
-)
+  "-DLLVM_ENABLE_RTTI=ON"
 
-# opts+=(
 #     "-DLIBCXX_CXX_ABI=libcxxabi"
 #     "-DLIBCXX_CXX_ABI_INCLUDE_PATHS=${src_dir}/libcxxabi/include"
 #     "-DLIBCXX_CXX_ABI_INTREE=ON"
@@ -77,6 +76,6 @@ opts=(
 #     # "-DCOMPILER_RT_BUILD_SANITIZERS=OFF"
 
 #     "-DSANITIZER_CXX_ABI=libc++"
-# )
+)
 
-cmake_configure "${opts[@]}"
+cmake_configure "${opts[@]}" "$@"

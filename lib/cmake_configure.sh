@@ -12,9 +12,11 @@ cmake_configure() {
     -B "${build_dir}"
     -Wno-dev
     "-DCMAKE_INSTALL_PREFIX=${prefix}"
+    "-DCMAKE_INSTALL_LIBDIR=${prefix}/lib"
+    "-DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib"
     "-DCMAKE_C_COMPILER_TARGET=x86_64-pc-linux-gnu"
     "-DCMAKE_CXX_COMPILER_TARGET=x86_64-pc-linux-gnu"
-    "-DCMAKE_MODULE_PATH=${prefix}/share/cmake"
+    "-DCMAKE_PREFIX_PATH=${prefix}"
   )
 
   if [ -n "${debug}" ]; then
