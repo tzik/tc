@@ -1,0 +1,10 @@
+diff --git a/lib/Support/CMakeLists.txt b/lib/Support/CMakeLists.txt
+index b2c6875..73f7145 100644
+--- a/lib/Support/CMakeLists.txt
++++ b/lib/Support/CMakeLists.txt
+@@ -11,4 +11,5 @@ add_circt_library(CIRCTSupport
+   ADDITIONAL_HEADER_DIRS
+ 
+   LINK_LIBS PUBLIC
++  MLIRIR
+   )
