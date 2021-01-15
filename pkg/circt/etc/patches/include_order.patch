@@ -1,18 +1,23 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 0f281ee..959d23f 100644
+index cbc4efa..53e8c19 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -82,11 +82,11 @@ add_custom_target(circt-headers)
+@@ -103,14 +103,14 @@ add_custom_target(circt-headers)
  set_target_properties(circt-headers PROPERTIES FOLDER "Misc")
  add_custom_target(circt-doc)
  
-+include_directories(${CIRCT_MAIN_SRC_DIR})
-+include_directories(${CIRCT_INCLUDE_DIR})
- include_directories(${LLVM_INCLUDE_DIRS})
- include_directories(${MLIR_INCLUDE_DIRS})
- #include_directories( ${MLIR_BINARY_INCLUDE_DIR})
--include_directories(${CIRCT_MAIN_SRC_DIR})
--include_directories(${CIRCT_INCLUDE_DIR})
+-# Add MLIR and LLVM headers to the include path
+-include_directories(${LLVM_INCLUDE_DIRS})
+-include_directories(${MLIR_INCLUDE_DIRS})
+-
+ # Add CIRCT files to the include path
+ include_directories(${CIRCT_MAIN_INCLUDE_DIR})
+ include_directories(${CIRCT_INCLUDE_DIR})
  
- # If Verilator hasn't been explicitly disabled, find it.
- option(VERILATOR_DISABLE "Disable the Verilator tests.")
++# Add MLIR and LLVM headers to the include path
++include_directories(${LLVM_INCLUDE_DIRS})
++include_directories(${MLIR_INCLUDE_DIRS})
++
+ #-------------------------------------------------------------------------------
+ # Verilator Configuration
+ #-------------------------------------------------------------------------------
