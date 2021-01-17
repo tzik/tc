@@ -1,6 +1,7 @@
 #!/bin/bash
 source "$(dirname "$0")/pkg.sh"
 source "${lib_dir}/cmake_ninja_install.sh"
+source "${lib_dir}/python_install.sh"
 cmake_ninja_install
 
 bin_dir="${image_dir}/${prefix}/bin"
@@ -51,3 +52,5 @@ EOF
 
 wrap cc clang
 wrap c++ clang++
+
+python_install "${src_dir}/llvm/utils/lit/setup.py"
