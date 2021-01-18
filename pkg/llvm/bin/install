@@ -54,3 +54,4 @@ wrap cc clang
 wrap c++ clang++
 
 python_install "${src_dir}/llvm/utils/lit/setup.py"
+ln -sr "${bin_dir}/lit" "${bin_dir}/llvm-lit"
