@@ -2,7 +2,7 @@
 set -ex -o pipefail
 cd "$(dirname "$0")/.."
 
-for i in llvm circt onnx pytorch; do
+for i in llvm circt onnx pytorch gcc; do
   "./pkg/${i}/bin/clobber"
   "./pkg/${i}/bin/checkout"
   full_build=1 "./pkg/${i}/bin/doit"

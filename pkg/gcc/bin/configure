@@ -1,0 +1,16 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+
+mkdir -p "${build_dir}"
+cd "${build_dir}"
+
+opts=(
+  --prefix="${prefix}"
+  --disable-multilib
+  --enable-languages="c,c++"
+  --disable-bootstrap
+)
+export CCACHE_DIR="${cache_dir}/ccache"
+export CC="ccache cc"
+export CXX="ccache c++"
+"${src_dir}/configure" "${opts[@]}"

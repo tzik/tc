@@ -1,0 +1,5 @@
+#!/bin/bash
+source "$(dirname "$0")/pkg.sh"
+
+export CCACHE_DIR="${cache_dir}/ccache"
+nice -n 20 ionice -c 3 make -C"${build_dir}" -j"$(nproc)"
