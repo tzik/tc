@@ -15,7 +15,7 @@ tc_off() {
       if [ -n "${v}" -a "${v}" != "${tc_paths[$k]}" ]; then
         updated+=("${v}")
       fi
-    done < <(eval "echo \"\${$k}\"")
+    done < <(eval "echo \"\${$k}:\"")
     eval "$k=\"${updated[*]}\""
   done
 }
