@@ -1,6 +1,6 @@
 #!/bin/bash
 source "$(dirname "$0")/pkg.sh"
-nice -n 20 ionice -c 3 make -C"${build_dir}" DESTDIR="${image_dir}" -j"$(nproc)" install
+nice -n 20 ionice -c 3 make -C"${build_dir}" DESTDIR="${image_dir}" -j"$(nproc)" install-strip
 
 bin_dir="${image_dir}${prefix}/bin"
 rm -f "${bin_dir}/cc" "${bin_dir}/c++" "${bin_dir}/x86_64-pc-linux-gnu-cc" "${bin_dir}/x86_64-pc-linux-gnu-c++"
