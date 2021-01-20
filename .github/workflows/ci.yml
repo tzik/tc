@@ -132,3 +132,28 @@ jobs:
           name: pytorch_${{matrix.distrib}}
           path: pkg/pytorch/pytorch.tar.xz
           retention-days: 1
+
+  ci_gcc:
+    runs-on: ubuntu-latest
+    needs: [label_check]
+    if: ${{needs.label_check.outputs.skip == 'false'}}
+    strategy:
+      matrix:
+        distrib: [gentoo, ubuntu]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: pkg/gcc/cache
+          key: cache_gcc_${{matrix.distrib}}-${{github.sha}}
+          restore-keys: cache_gcc_${{matrix.distrib}}-
+      - name: build
+        run: |
+          docker login docker.pkg.github.com -u tzik -p "${{secrets.CONTAINER_REGISTRY_TOKEN}}"
+          docker pull "docker.pkg.github.com/tzik/tc/builder_${{matrix.distrib}}"
+          ./bin/ci ${{matrix.distrib}} gcc
+      - uses: actions/upload-artifact@v2
+        with:
+          name: gcc_${{matrix.distrib}}
+          path: pkg/gcc/gcc.tar.xz
+          retention-days: 1
