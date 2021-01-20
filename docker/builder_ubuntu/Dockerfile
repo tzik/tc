@@ -12,10 +12,15 @@ RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/
       clang \
       clang-format \
       cmake \
+      flex \
       g++ \
       git \
+      libgmp-dev \
       libgoogle-glog-dev \
+      libmpc-dev \
+      libmpfr-dev \
       libprotobuf-dev \
+      make \
       ninja-build \
       patch \
       pkg-config \
