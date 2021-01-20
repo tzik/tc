@@ -12,7 +12,7 @@ cmake_ninja_install() {
   rm -rf "${image_dir}"
 
   local target
-  if [ -n "debug" ]; then
+  if [ -n "${debug}" ]; then
     target="install"
   else
     target="install/strip"
